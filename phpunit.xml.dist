@@ -11,7 +11,12 @@
         >
     <testsuites>
         <testsuite name="AppBundleTests">
-            <directory>./src/AppBundle/tests</directory>
+            <directory>./src/AppBundle/Tests</directory>
+            <filter>
+                <whitelist processUncoveredFilesFromWhitelist="true">
+                    <directory suffix=".php">./src/AppBundle</directory>
+                </whitelist>
+            </filter>
         </testsuite>
     </testsuites>
     <logging>
