@@ -12,8 +12,6 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ApplicationType extends AbstractType
 {
-    static $sexValues = ["male" => "male", "female" => "female"];
-
     /**
      * @var RestCountriesClient a client to talk to RestCountries API
      */
