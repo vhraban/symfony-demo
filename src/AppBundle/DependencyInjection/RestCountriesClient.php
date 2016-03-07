@@ -23,19 +23,10 @@ class RestCountriesClient
      * Get a list of european countries
      *
      * @return string[] A list of european countries
-     *
-     * @throws UnexpectedValueException if broken JSON received
      */
     public function getEuropeanCountries()
     {
-        $response = $this->client->get("rest/v1/region/europe");
-        $countries = $response->getBody();
-        $decoded = json_decode($countries);
-
-        if(is_null($decoded))
-        {
-            throw new UnexpectedValueException("Could not decode JSON: " . json_last_error_msg());
-        }
+        $decoded = $this->get('rest/v1/region/europe');
 
         //strip out what we do not need
         $filteredCountries = array_map(function($val){
@@ -44,6 +35,28 @@ class RestCountriesClient
                                         $decoded);
 
         return $filteredCountries;
+    }
 
+    /**
+     * Send a GET request to a given URI and attempt to JSON decode
+     *
+     * @param string $uri URI to send request to
+     *
+     * @return StdClass[] Decoded array of StdClasses
+     *
+     * @throws UnexpectedValueException if broken JSON received
+     */
+    protected function get($uri)
+    {
+        $response = $this->client->get($uri);
+        $body = $response->getBody();
+        $decoded = json_decode($body);
+
+        if(is_null($decoded))
+        {
+            throw new UnexpectedValueException("Could not decode JSON: " . json_last_error_msg());
+        }
+
+        return $decoded;
     }
 }
