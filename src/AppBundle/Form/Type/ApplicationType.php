@@ -12,6 +12,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 class ApplicationType extends AbstractType
 {
+    static $sexValues = ["male" => "male", "female" => "female"];
+
     /**
      * @var RestCountriesClient a client to talk to RestCountries API
      */
@@ -32,17 +34,39 @@ class ApplicationType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $sexChoices = $this->translateToChoices(Application::$allowedSex);
+        $countryChoices = $this->translateToChoices(
+            $this->restCountriesClient->getEuropeanCountries()
+        );
+
         $builder->add('name', TextType::class)
                 ->add('sex', ChoiceType::class, [
-                        "choices" => Application::$allowedSex,
+                        "choices" => $sexChoices,
+                        "choices_as_values" => true,
                         "expanded" => true
                     ]
                 )
                 ->add('age', IntegerType::class)
                 ->add('country', ChoiceType::class, [
-                        "choices" => $this->restCountriesClient->getEuropeanCountries(),
+                        "choices" => $countryChoices
                     ]
                 )
                 ->add('save', SubmitType::class);
+    }
+
+    /**
+     * Translate a given array into a format understandable by choiceType
+     * choices config option
+     *
+     * In put case we want to keys be the same as values,
+     * not auto-incremental values
+     *
+     * @param array $source Source array
+     *
+     * @return array Translated array
+     */
+    protected function translateToChoices(array $source)
+    {
+        return array_combine($source, $source);
     }
 }
