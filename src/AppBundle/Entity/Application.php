@@ -1,33 +1,52 @@
 <?php
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+use DateTime;
 use Doctrine\Common\Proxy\Exception\UnexpectedValueException;
 use Symfony\Component\Validator\Constraints as Assert;
 
-
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="application")
+ * @ORM\HasLifecycleCallbacks
+ */
 class Application
 {
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
+     */
+    protected $id;
+
+    /**
      * @var string Name of the application
      * @Assert\NotBlank()
+     * @ORM\Column(name="name", type="string", length=255)
      */
     protected $name;
 
     /**
      * @var string Sex
      * @Assert\NotBlank()
+     * @ORM\Column(name="sex", type="string", length=6)
      */
     protected $sex;
 
     /**
      * @var int Age
      * @Assert\NotBlank()
+     * @ORM\Column(name="age", type="integer")
      */
     protected $age;
 
     /**
      * @var string Country
      * @Assert\NotBlank()
+     * @ORM\Column(name="country", type="string", length=255)
      */
     protected $country;
 
@@ -35,6 +54,12 @@ class Application
      * @var array A list of allowed values for sex field
      */
     static $allowedSex = ["male", "female"];
+
+    /**
+     * @var DateTime Time created
+     * @ORM\Column(name="created_at", type="datetime")
+     */
+    protected $createdAt;
 
     /**
      * Get the name
@@ -136,4 +161,61 @@ class Application
 
         return $this;
     }
+
+    /**
+     * Get created at
+     *
+     * @return DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
+    }
+
+    /**
+     * Set created at
+     *
+     * @param DateTime $createdAt
+     *
+     * @return $this
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+    }
+
+    /**
+     * Get ID
+     *
+     * @return int The ID
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set ID
+     *
+     * @param int $id ID to set
+     *
+     * @return $this
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
+
+        return $this;
+    }
+
+    /**
+     * Gets triggered only on insert
+     * @ORM\PrePersist
+     */
+    public function onPrePersist()
+    {
+        $this->setCreatedAt(new DateTime("now"));
+    }
+
+
 }
