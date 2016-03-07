@@ -46,7 +46,8 @@ class ApplicationType extends AbstractType
                 )
                 ->add('age', IntegerType::class)
                 ->add('country', ChoiceType::class, [
-                        "choices" => $countryChoices
+                        "choices" => $countryChoices,
+                        "choices_as_values" => true
                     ]
                 )
                 ->add('save', SubmitType::class);
