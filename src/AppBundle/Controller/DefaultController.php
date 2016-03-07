@@ -26,6 +26,9 @@ class DefaultController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($application);
+            $em->flush();
             return $this->render('AppBundle:Default:thanks.html.twig',
                 [
                     "application" => $application
