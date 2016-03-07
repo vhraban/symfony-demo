@@ -5,13 +5,35 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Application;
 use AppBundle\Form\Type\ApplicationType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\BrowserKit\Response;
+use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-    public function indexAction()
+    /**
+     * Index action that is called on an app home page
+     *
+     * @param Request $request Request instance
+     *
+     * @return Response HTTPFoundation Response
+     */
+    public function indexAction(Request $request)
     {
         $application = new Application();
         $form = $this->createForm(ApplicationType::class, $application);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            return $this->render('AppBundle:Default:thanks.html.twig',
+                [
+                    "formData" => $request->request->get("application")
+                ]
+            );
+
+        }
+
 
         return $this->render('AppBundle:Default:index.html.twig',
                 [
