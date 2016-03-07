@@ -1,3 +1,9 @@
 services:
     app.restcountries_client:
         class:        AppBundle\DependencyInjection\RestCountriesClient
+
+    app.form.type.task:
+        class: AppBundle\Form\Type\ApplicationType
+        arguments: ["@app.restcountries_client"]
+        tags:
+            - { name: form.type }
