@@ -2,31 +2,37 @@
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Proxy\Exception\UnexpectedValueException;
+use Symfony\Component\Validator\Constraints as Assert;
+
 
 class Application
 {
     /**
      * @var string Name of the application
+     * @Assert\NotBlank()
      */
     protected $name;
 
     /**
      * @var string Sex
+     * @Assert\NotBlank()
      */
     protected $sex;
 
     /**
      * @var int Age
+     * @Assert\NotBlank()
      */
     protected $age;
 
     /**
      * @var string Country
+     * @Assert\NotBlank()
      */
     protected $country;
 
     /**
-     * @var array A list of allowd values for sex field
+     * @var array A list of allowed values for sex field
      */
     static $allowedSex = ["male", "female"];
 
