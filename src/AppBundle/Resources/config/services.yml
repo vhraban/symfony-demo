@@ -1,4 +1,3 @@
 services:
-#    app.example:
-#        class: AppBundle\Example
-#        arguments: ["@service_id", "plain_value", %parameter%]
+    app.restcountries_client:
+        class:        AppBundle\DependencyInjection\RestCountriesClient
