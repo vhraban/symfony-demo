@@ -2,6 +2,7 @@
 namespace AppBundle\Tests\DependencyInjection;
 
 use AppBundle\DependencyInjection\RestCountriesClient;
+use UnexpectedValueException;
 use GuzzleHttp\Client;
 use PHPUnit_Framework_TestCase;
 use ReflectionClass;
@@ -37,6 +38,29 @@ class RestCountriesClientTest extends PHPUnit_Framework_TestCase
         $this->changeProtectedValue($client, "client", $guzzleClientMock);
         $countries = $client->getEuropeanCountries();
         $this->assertEquals($expected, $countries);
+    }
+
+    public function testBadResponse()
+    {
+        $jsonString = 'I-am-not-json';
+
+        $guzzleClientMock = $this->getMockBuilder(Client::class)
+            ->setMethods(array('get', 'getBody'))
+            ->getMock();
+
+        $guzzleClientMock->expects($this->once())
+            ->method('get')
+            ->will($this->returnSelf());
+
+        $guzzleClientMock->expects($this->any())
+            ->method('getBody')
+            ->will($this->returnValue($jsonString));
+
+        $this->setExpectedException(UnexpectedValueException::class);
+        $client = new RestCountriesClient();
+        $this->changeProtectedValue($client, "client", $guzzleClientMock);
+        $client->getEuropeanCountries();
+
     }
 
     protected function changeProtectedValue($instance, $property, $value)
