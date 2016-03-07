@@ -28,7 +28,7 @@ class DefaultController extends Controller
 
             return $this->render('AppBundle:Default:thanks.html.twig',
                 [
-                    "formData" => $request->request->get("application")
+                    "application" => $application
                 ]
             );
 
