@@ -24,28 +24,28 @@ class Application
 
     /**
      * @var string Name of the application
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Name can not be blank")
      * @ORM\Column(name="name", type="string", length=255)
      */
     protected $name;
 
     /**
      * @var string Sex
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Sex can not be blank")
      * @ORM\Column(name="sex", type="string", length=6)
      */
     protected $sex;
 
     /**
      * @var int Age
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Age can not be blank")
      * @ORM\Column(name="age", type="integer")
      */
     protected $age;
 
     /**
      * @var string Country
-     * @Assert\NotBlank()
+     * @Assert\NotBlank(message="Country can not be blank")
      * @ORM\Column(name="country", type="string", length=255)
      */
     protected $country;
