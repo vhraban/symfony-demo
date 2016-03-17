@@ -49,7 +49,9 @@ class ApplicationType extends AbstractType
                 ->add('country', ChoiceType::class, [
                         "choices" => $countryChoices,
                         "choices_as_values" => true,
-                        "invalid_message" => "Invalid country"
+                        "invalid_message" => "Invalid country",
+                        "empty_data" => null,
+                        'empty_value' => "Please select"
                     ]
                 )
                 ->add('save', SubmitType::class);
